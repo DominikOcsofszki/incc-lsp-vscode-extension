@@ -1,0 +1,124 @@
+# from lsprotocol import types as types
+import operator
+from dataclasses import dataclass
+
+#
+# from incc_lsp.extracts_from_interpreter import imported_helper, interpreter_class_info
+# from incc_lsp.lsp_server import mlex
+from lsprotocol import types
+from pygls.lsp.server import LanguageServer
+
+from incc_lsp.extracts_from_interpreter.interpreter_class_info import (
+    InccInterpreterImported,
+)
+from incc_lsp.lexer import LEXER_TOKS
+
+from incc_lsp.lexer.LEXER_TOKS import InccSemanticToken
+
+
+# @dataclass
+# class SemanticToken:
+#     line: int
+#     offset: int
+#     text: str
+#     tok_type: str
+#     len_token_text: int
+#     # tok_modifier: list
+#
+#     # def goto_definition(ls: InCCLanguageServer, params: types.DefinitionParams):
+#
+#
+# def getSemanticTokens(data: str) -> list[SemanticToken]:
+#     III = InccInterpreterImported("")
+#     lexer = III.LEXER_import_modul.lexer
+#     lexer.input(data)
+#     all_tok: list[SemanticToken] = []
+#     # last_line_offset = 0
+#     # last_lexpos_offset = 0
+#     last_lexpos = 0
+#
+#     while True:
+#         tok: III.LEXER_import_modul.LexToken = lexer.token()
+#         if tok:
+#             if tok.__dict__.get("lexer"):
+#                 line = tok.__dict__.get("lineno")
+#                 current_lexpos = tok.__dict__.get("lexpos")
+#                 # if line != last_line_offset:
+#                 # last_lexpos_offset = 0
+#                 lexpos_offset = current_lexpos - last_lexpos
+#                 text = tok.__dict__.get("value")
+#                 tok_type = tok.__dict__.get("type")
+#                 len_token_text = len(text)
+#                 all_tok.append(
+#                     SemanticToken(line, lexpos_offset, text, tok_type, len_token_text)
+#                 )
+#                 # last_lexpos_offset = current_lexpos
+#                 last_lexpos = current_lexpos
+#                 # last_line_offset = current_lexpos
+#         if not tok:
+#             break
+#     return all_tok
+#
+#
+# def getTokens(data: str) -> list[SemanticToken]:
+#     # depth = 0
+#     III = InccInterpreterImported("")
+#     lexer = III.LEXER_import_modul.lexer
+#     lexer.input(data)
+#     all_tok: list[SemanticToken] = []
+#     # last_line_offset = 0
+#     # last_lexpos_offset = 0
+#     last_lexpos = 0
+#
+#     while True:
+#         tok: III.LEXER_import_modul.LexToken = lexer.token()
+#         if tok:
+#             if tok.__dict__.get("lexer"):
+#                 line = tok.__dict__.get("lineno")
+#                 current_lexpos = tok.__dict__.get("lexpos")
+#                 # if line != last_line_offset:
+#                 # last_lexpos_offset = 0
+#                 lexpos_offset = current_lexpos - last_lexpos
+#                 text = tok.__dict__.get("value")
+#                 tok_type = tok.__dict__.get("type")
+#                 len_token_text = len(text)
+#                 all_tok.append(
+#                     SemanticToken(line, lexpos_offset, text, tok_type, len_token_text)
+#                 )
+#                 # last_lexpos_offset = current_lexpos
+#                 last_lexpos = current_lexpos
+#                 # last_line_offset = current_lexpos
+#         if not tok:
+#             break
+#     return all_tok
+
+
+# @dataclass
+# class InccSemanticToken:
+#     line_offset: int
+#     pos_offset: int
+#     text: str
+#     tok_type: str
+
+
+class InCCLanguageServer(LanguageServer):
+    CONFIGURATION_SECTION: str = "pygls.incc-server"
+    TokenTypes: list[str] = [
+        "namespace",
+        "variable",
+        "keyword",
+        "operator",
+        "number",
+        "struct",
+    ]
+
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    def InCCLanguageServerParseHighlightTokens(
+        self, params: types.SemanticTokensParams
+    ) -> list[InccSemanticToken]:
+
+        document = self.workspace.get_text_document(params.text_document.uri)
+        tokens = LEXER_TOKS.getTokensLexer(document.source)
+        return tokens
