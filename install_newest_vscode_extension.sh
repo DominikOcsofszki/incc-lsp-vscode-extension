@@ -2,7 +2,7 @@
 echo "IF ERROR:"
 echo "vscode has to be enabled as command code. Can be done from vscode"
 
-code --install-extension vscode-extension/beta_changes/lsp-incc-vscode.vsix
+code --install-extension vscode-extension/beta_elways_changing/lsp-incc-vscode.vsix
 
 echo "Open vscode and create/ open .incc file or .incc24 file"
 echo ""
