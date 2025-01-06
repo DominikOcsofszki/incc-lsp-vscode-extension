@@ -23,9 +23,7 @@ lsp-incc-vscode.restart
 - COMMENTS
 - 
 
--example.incc
-```incc
-- before:
+- example.incc:
 ```incc
 {
 missing_semi ="ERROR"
@@ -80,11 +78,9 @@ missing_semi ="ERROR"
   }
 
 }
-
 ```
+![vscode.incc before](img/vscode.incc.before.png)
 
 ![vscode.incc](img/vscode.incc.png)
 
-- before:
-![vscode.incc before](img/vscode.incc.before.png)
 
